@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+<title>GANS777 ADMIN</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--bg:#050810;--gold:#f5c542;--gold2:#ffde7a;--green:#25d07a;--red:#ff4d5e;--purple:#8b5cf6;--cyan:#22d3ee;--text:#e8eefc;--text2:#93a3c4;--text3:#5f6f8f;--line:rgba(139,92,246,.25);--grad-purple:linear-gradient(135deg,#8b5cf6,#c084fc 50%,#6d28d9);--grad-green:linear-gradient(135deg,#25d07a,#4ade80 50%,#0d9e56);--grad-red:linear-gradient(135deg,#ff4d5e,#ff7a85 50%,#c81e2e);--grad-gold:linear-gradient(135deg,#f5c542,#ffde7a 40%,#c99a1c)}
+html,body{height:100%;width:100%}
+body{background:radial-gradient(circle at 50% 0%,#1a0e2e 0%,#050810 55%);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;font-size:14px;line-height:1.5;overflow:hidden;user-select:none;-webkit-font-smoothing:antialiased}
+button,input{font-family:inherit;font-size:inherit;color:inherit;outline:none;border:none;background:none}
+button{cursor:pointer}
+.hidden{display:none!important}
+.sym{font-family:'Segoe UI Symbol',system-ui;font-weight:700}
+@keyframes popIn{0%{opacity:0;transform:scale(.82)}60%{transform:scale(1.04)}100%{opacity:1;transform:scale(1)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes glow{0%,100%{box-shadow:0 0 12px rgba(245,197,66,.35)}50%{box-shadow:0 0 28px rgba(245,197,66,.7)}}
+@keyframes glowRed{0%,100%{box-shadow:0 0 12px rgba(255,77,94,.45)}50%{box-shadow:0 0 28px rgba(255,77,94,.85)}}
+@keyframes pulseRing{0%{box-shadow:0 0 0 0 rgba(255,77,94,.7)}70%{box-shadow:0 0 0 12px rgba(255,77,94,0)}100%{box-shadow:0 0 0 0 rgba(255,77,94,0)}}
+
+#login{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:34px 18px;overflow-y:auto}
+.login-card{width:100%;max-width:380px;padding:26px 22px;border-radius:22px;background:linear-gradient(160deg,#1a0e2e 0%,#0a0d1a 100%);border:1px solid rgba(139,92,246,.45);box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 60px rgba(139,92,246,.15);animation:popIn .4s both;position:relative}
+.login-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:22px 22px 0 0;background:var(--grad-purple)}
+.login-logo{font-size:26px;font-weight:900;text-align:center;background:var(--grad-purple);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:1px;margin-bottom:5px}
+.login-tag{font-size:10px;color:var(--text3);letter-spacing:3px;text-align:center;text-transform:uppercase;margin-bottom:22px}
+.login-input{width:100%;padding:14px 16px;border-radius:12px;background:rgba(0,0,0,.4);border:1.5px solid rgba(139,92,246,.35);color:#fff;font-size:15px;text-align:center;letter-spacing:2px;margin-bottom:13px;transition:.2s}
+.login-input:focus{border-color:rgba(180,140,255,.8);background:rgba(139,92,246,.08)}
+.login-btn{padding:14px;border-radius:13px;font-weight:900;font-size:14.5px;background:var(--grad-purple);color:#fff;letter-spacing:.6px;box-shadow:0 10px 28px rgba(139,92,246,.4);width:100%}
+.login-btn:active{transform:scale(.975)}
+.login-hint{text-align:center;font-size:9.5px;color:var(--text3);margin-top:12px;letter-spacing:.5px}
+.login-hint b{color:#c084fc}
+
+#panel{position:fixed;inset:0;display:flex;flex-direction:column;overflow:hidden;animation:fadeIn .3s}
+.admin-top{padding:12px 14px;display:flex;align-items:center;gap:11px;background:linear-gradient(180deg,#150a24 0%,#0a0614 100%);border-bottom:1px solid rgba(139,92,246,.32);flex-shrink:0;position:relative;z-index:5}
+.admin-avatar{width:42px;height:42px;border-radius:13px;background:var(--grad-purple);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#fff;flex-shrink:0;box-shadow:0 6px 20px rgba(139,92,246,.5)}
+.admin-info{flex:1;min-width:0}
+.admin-name{font-size:14.5px;font-weight:900;color:#fff;letter-spacing:.3px;display:flex;align-items:center;gap:6px}
+.admin-badge{font-size:8px;font-weight:900;padding:2px 7px;border-radius:5px;background:var(--grad-purple);color:#fff;letter-spacing:1px}
+.admin-clock{font-size:10px;color:#a58bd6;font-variant-numeric:tabular-nums;margin-top:2px}
+.admin-exit{width:38px;height:38px;border-radius:11px;background:rgba(255,77,94,.15);border:1px solid rgba(255,77,94,.4);display:flex;align-items:center;justify-content:center;font-size:16px;color:#ff8b95;flex-shrink:0;font-weight:900}
+.admin-exit:active{transform:scale(.9);background:rgba(255,77,94,.3)}
+
+.admin-tabs{display:flex;padding:8px 10px;gap:6px;background:rgba(0,0,0,.3);border-bottom:1px solid rgba(139,92,246,.2);overflow-x:auto;flex-shrink:0}
+.admin-tab{padding:9px 14px;border-radius:11px;font-size:11.5px;font-weight:800;color:#a58bd6;background:rgba(255,255,255,.03);border:1.3px solid transparent;white-space:nowrap;flex-shrink:0;position:relative;transition:.2s}
+.admin-tab.on{color:#fff;background:linear-gradient(135deg,rgba(139,92,246,.28),rgba(139,92,246,.12));border-color:rgba(180,140,255,.55);box-shadow:0 4px 14px rgba(139,92,246,.3)}
+.admin-tab .tab-bdg{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--red);color:#fff;font-size:9px;font-weight:900;display:flex;align-items:center;justify-content:center;animation:pulseRing 1.6s infinite;box-shadow:0 0 0 2px #0a0614}
+
+.admin-body{flex:1;overflow-y:auto;padding:14px 13px 40px;-webkit-overflow-scrolling:touch}
+.admin-sec{margin-bottom:20px}
+.admin-sec-title{font-size:11px;font-weight:900;color:#a58bd6;letter-spacing:1.6px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+.admin-sec-title span:first-child{display:flex;align-items:center;gap:6px}
+.admin-sec-title span:first-child::before{content:'';width:3px;height:12px;border-radius:3px;background:var(--grad-purple)}
+.admin-sec-title small{font-size:10px;color:var(--text3);font-weight:600;letter-spacing:0}
+
+.admin-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:15px}
+.admin-stat{padding:14px;border-radius:14px;background:linear-gradient(150deg,#150a24,#0a0614);border:1px solid rgba(139,92,246,.28);position:relative;overflow:hidden}
+.admin-stat .as-l{font-size:9px;color:#a58bd6;letter-spacing:1.2px;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+.admin-stat .as-v{font-size:22px;font-weight:900;color:#fff;font-variant-numeric:tabular-nums}
+.admin-stat.gold{border-color:rgba(245,197,66,.4)}
+.admin-stat.gold .as-v{color:var(--gold2)}
+.admin-stat.green{border-color:rgba(37,208,122,.4)}
+.admin-stat.green .as-v{color:#7cf0b4}
+.admin-stat.red{border-color:rgba(255,77,94,.5)}
+.admin-stat.red .as-v{color:#ff8b95}
+.admin-stat.cyan{border-color:rgba(34,211,238,.4)}
+.admin-stat.cyan .as-v{color:#67e8f9}
+
+.admin-card{padding:14px;border-radius:14px;background:linear-gradient(150deg,#131024,#0a0a14);border:1px solid rgba(139,92,246,.28);margin-bottom:10px;position:relative;overflow:hidden;animation:fadeUp .3s both}
+.admin-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--grad-purple)}
+.admin-card.gold::before{background:var(--grad-gold)}
+.admin-card.red::before{background:var(--grad-red)}
+.admin-card.green::before{background:var(--grad-green)}
+.admin-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;gap:8px}
+.admin-card-head b{font-size:13px;font-weight:900;color:#fff}
+.admin-card-head small{font-size:9.5px;color:var(--text3)}
+.admin-card-body{display:flex;flex-direction:column;gap:6px;font-size:11.5px;color:#c3b3e8;line-height:1.55}
+.admin-card-body .arow{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.admin-card-body .arow b{color:#fff;font-weight:800;text-align:right;word-break:break-word}
+.admin-card-body .code{font-family:'Courier New',monospace;font-size:13px;font-weight:900;color:#c084fc;letter-spacing:1.5px;background:rgba(139,92,246,.1);padding:4px 9px;border-radius:7px;border:1px dashed rgba(180,140,255,.4);display:inline-block}
+.admin-card-body .amount{font-size:17px;font-weight:900;color:var(--gold2);letter-spacing:.3px}
+.admin-actions{display:flex;gap:8px;margin-top:11px}
+.admin-btn-yes{flex:1;padding:12px;border-radius:11px;font-weight:900;font-size:13px;background:var(--grad-green);color:#022e16;box-shadow:0 6px 18px rgba(37,208,122,.4);display:flex;align-items:center;justify-content:center;gap:6px}
+.admin-btn-yes:active{transform:scale(.96)}
+.admin-btn-no{flex:1;padding:12px;border-radius:11px;font-weight:900;font-size:13px;background:var(--grad-red);color:#fff;box-shadow:0 6px 18px rgba(255,77,94,.4);display:flex;align-items:center;justify-content:center;gap:6px}
+.admin-btn-no:active{transform:scale(.96)}
+
+.admin-empty{text-align:center;padding:34px 20px;color:var(--text3);font-size:12px;line-height:1.7}
+.admin-empty .aei{font-size:38px;opacity:.3;margin-bottom:10px;color:#a58bd6}
+.admin-empty b{color:#c084fc}
+
+.user-row{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:12px;background:rgba(255,255,255,.025);border:1px solid rgba(139,92,246,.2);margin-bottom:7px}
+.user-row .ur-av{width:38px;height:38px;border-radius:11px;background:var(--grad-purple);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;color:#fff;overflow:hidden}
+.user-row .ur-av img{width:100%;height:100%;object-fit:cover}
+.user-row .ur-tx{flex:1;min-width:0}
+.user-row .ur-tx b{display:block;font-size:12.5px;font-weight:800;color:#fff;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-row .ur-tx small{font-size:10px;color:var(--text3);display:flex;gap:8px;flex-wrap:wrap}
+.user-row .ur-val{font-size:12px;font-weight:900;color:var(--gold2);text-align:right;flex-shrink:0}
+.user-row .ur-val small{display:block;font-size:9px;font-weight:700;color:#a58bd6;margin-top:2px}
+.user-block-btn{padding:6px 10px;border-radius:8px;font-size:10px;font-weight:800;background:rgba(255,77,94,.15);border:1px solid rgba(255,77,94,.35);color:#ff8b95;flex-shrink:0}
+.user-block-btn.unblock{background:rgba(37,208,122,.15);border-color:rgba(37,208,122,.35);color:#7cf0b4}
+
+.hist-row{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.02);border:1px solid rgba(139,92,246,.15);margin-bottom:6px;font-size:11px}
+.hist-row .hr-l{flex:1;min-width:0;color:#c3b3e8}
+.hist-row .hr-l b{color:#fff;font-weight:800;display:block;font-size:12px;margin-bottom:2px}
+.hist-row .hr-l small{color:var(--text3);font-size:9.5px}
+.hist-row .hr-r{text-align:right;font-weight:900;color:var(--gold2);flex-shrink:0}
+
+#toastBox{position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:99000;width:calc(100% - 32px);max-width:390px;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{padding:13px 16px;border-radius:14px;display:flex;gap:11px;align-items:center;font-size:12.5px;font-weight:700;animation:fadeDown .28s both}
+.toast.ok{background:rgba(37,208,122,.16);border:1px solid rgba(37,208,122,.45);color:#a6f5cd}
+.toast.err{background:rgba(255,77,94,.16);border:1px solid rgba(255,77,94,.45);color:#ffb3bb}
+.toast.info{background:rgba(139,92,246,.16);border:1px solid rgba(139,92,246,.45);color:#c9b3ff}
+.toast .ti{font-size:17px;font-weight:900}
+</style>
+</head>
+<body>
+
+<div id="login">
+  <div class="login-card">
+    <div class="login-logo">GANS777 ADMIN</div>
+    <div class="login-tag">Panel Kontrol</div>
+    <div style="text-align:center;font-size:11px;color:#a58bd6;margin-bottom:18px;line-height:1.7">Masukkan kata sandi admin</div>
+    <input type="password" class="login-input" id="passIn" placeholder="••••••••••">
+    <button class="login-btn" id="btnLogin">MASUK PANEL ADMIN</button>
+    <div class="login-hint">Default: <b>gans777admin</b></div>
+  </div>
+</div>
+
+<div id="panel" class="hidden">
+  <div class="admin-top">
+    <div class="admin-avatar sym">⚙</div>
+    <div class="admin-info">
+      <div class="admin-name">Panel Admin <span class="admin-badge">ROOT</span></div>
+      <div class="admin-clock" id="clock">--:--:--</div>
+    </div>
+    <button class="admin-exit sym" id="btnExit">⊗</button>
+  </div>
+
+  <div class="admin-tabs" id="tabs">
+    <button class="admin-tab on" data-t="dash">Dashboard <span class="tab-bdg hidden" id="bdgAll">0</span></button>
+    <button class="admin-tab" data-t="deposits">Deposit <span class="tab-bdg hidden" id="bdgDep">0</span></button>
+    <button class="admin-tab" data-t="withdrawals">Penarikan <span class="tab-bdg hidden" id="bdgWd">0</span></button>
+    <button class="admin-tab" data-t="users">Users</button>
+    <button class="admin-tab" data-t="history">Riwayat</button>
+  </div>
+
+  <div class="admin-body" id="body"></div>
+</div>
+
+<div id="toastBox"></div>
+
+<script>
+'use strict';
+
+const $ = (s, p) => (p || document).querySelector(s);
+const $$ = (s, p) => Array.from((p || document).querySelectorAll(s));
+const fmt = n => 'Rp ' + Math.floor(Number(n) || 0).toLocaleString('id-ID');
+const pad = n => String(n).padStart(2, '0');
+const clockStr = () => { const d = new Date(); return pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds()); };
+const formatTime = ts => {
+  const d = new Date(ts);
+  return pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+};
+
+function toast(msg, type = 'info', dur = 3000) {
+  const box = $('#toastBox'); const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  const icons = { ok: '✓', err: '✕', info: 'i' };
+  el.innerHTML = '<span class="ti sym">' + (icons[type] || 'i') + '</span><span>' + msg + '</span>';
+  box.appendChild(el);
+  setTimeout(() => { el.style.transition = 'opacity .3s'; el.style.opacity = '0'; setTimeout(() => el.remove(), 300); }, dur);
+}
+
+function getToken() { return sessionStorage.getItem('gans777_admin_token') || ''; }
+function setToken(t) { sessionStorage.setItem('gans777_admin_token', t); }
+function clearToken() { sessionStorage.removeItem('gans777_admin_token'); }
+
+async function api(path, method = 'GET', body) {
+  try {
+    const opts = { method, headers: { 'Content-Type': 'application/json' } };
+    const t = getToken();
+    if (t) opts.headers['Authorization'] = 'Bearer ' + t;
+    if (body) opts.body = JSON.stringify(body);
+    const r = await fetch(path, opts);
+    return await r.json();
+  } catch (e) {
+    return { ok: false, err: 'Koneksi gagal' };
+  }
+}
+
+let CUR_TAB = 'dash';
+let CACHE = { deposits: [], withdraws: [], users: [], stats: {}, history: [] };
+
+/* ============ LOGIN ============ */
+$('#btnLogin').onclick = async () => {
+  const pass = $('#passIn').value;
+  const r = await api('/api/admin/login', 'POST', { pass });
+  if (!r.ok) return toast(r.err || 'Gagal', 'err');
+  setToken(r.token);
+  showPanel();
+};
+
+$('#btnExit').onclick = async () => {
+  clearToken();
+  location.reload();
+};
+
+/* ============ CLOCK ============ */
+setInterval(() => { $('#clock').textContent = clockStr(); }, 1000);
+$('#clock').textContent = clockStr();
+
+/* ============ PANEL ============ */
+async function showPanel() {
+  $('#login').classList.add('hidden');
+  $('#panel').classList.remove('hidden');
+  await refresh();
+  setInterval(refresh, 4000);
+}
+
+async function refresh() {
+  const r = await api('/api/admin/pending');
+  if (!r.ok) { 
+    if (r.err === 'Unauthorized' || true) { clearToken(); location.reload(); }
+    return;
+  }
+  CACHE.deposits = r.deposits || [];
+  CACHE.withdraws = r.withdraws || [];
+  CACHE.stats = r.stats || {};
+  updateBadges();
+  renderTab();
+}
+
+function updateBadges() {
+  const nd = CACHE.deposits.length;
+  const nw = CACHE.withdraws.length;
+  const bd = $('#bdgDep'); bd.textContent = nd; bd.classList.toggle('hidden', nd === 0);
+  const bw = $('#bdgWd'); bw.textContent = nw; bw.classList.toggle('hidden', nw === 0);
+  const ba = $('#bdgAll'); ba.textContent = nd + nw; ba.classList.toggle('hidden', nd + nw === 0);
+}
+
+$$('#tabs .admin-tab').forEach(t => {
+  t.onclick = () => {
+    $$('#tabs .admin-tab').forEach(x => x.classList.remove('on'));
+    t.classList.add('on');
+    CUR_TAB = t.dataset.t;
+    renderTab();
+  };
+});
+
+function renderTab() {
+  if (CUR_TAB === 'dash') renderDash();
+  else if (CUR_TAB === 'deposits') renderDeposits();
+  else if (CUR_TAB === 'withdrawals') renderWithdrawals();
+  else if (CUR_TAB === 'users') renderUsers();
+  else if (CUR_TAB === 'history') renderHistory();
+}
+
+function renderDash() {
+  const s = CACHE.stats;
+  $('#body').innerHTML =
+    '<div class="admin-sec"><div class="admin-sec-title"><span>Ringkasan</span></div>' +
+    '<div class="admin-stats">' +
+      '<div class="admin-stat cyan"><div class="as-l">Total User</div><div class="as-v">' + (s.totalUsers || 0) + '</div></div>' +
+      '<div class="admin-stat gold"><div class="as-l">Total Saldo</div><div class="as-v" style="font-size:16px">' + fmt(s.totalSaldo || 0) + '</div></div>' +
+      '<div class="admin-stat green"><div class="as-l">Deposit Pending</div><div class="as-v">' + (s.totalPendingDep || 0) + '</div></div>' +
+      '<div class="admin-stat red"><div class="as-l">Penarikan Pending</div><div class="as-v">' + (s.totalPendingWd || 0) + '</div></div>' +
+    '</div></div>' +
+    (CACHE.deposits.length + CACHE.withdraws.length > 0 ?
+      '<div class="admin-sec"><div class="admin-sec-title"><span>Menunggu Verifikasi</span></div>' +
+      '<div class="admin-card gold" style="text-align:center;padding:20px">' +
+      '<div style="font-size:32px;color:#ffde7a">⚠</div>' +
+      '<div style="font-size:14px;color:#fff;font-weight:900;margin-top:8px">' +
+      (CACHE.deposits.length + CACHE.withdraws.length) + ' transaksi menunggu</div>' +
+      '<div style="font-size:11px;color:#a58bd6;margin-top:4px">Buka tab Deposit atau Penarikan untuk approve</div>' +
+      '</div></div>' : '') +
+    '<div class="admin-sec"><div class="admin-sec-title"><span>Info</span></div>' +
+    '<div style="padding:14px;border-radius:12px;background:rgba(139,92,246,.08);border:1px dashed rgba(139,92,246,.3);font-size:11.5px;color:#c3b3e8;line-height:1.8">' +
+    '◆ Klik <b style="color:#7cf0b4">IYA</b> untuk approve → saldo user langsung masuk.<br>' +
+    '◆ Klik <b style="color:#ff8b95">TIDAK</b> untuk reject → deposit gagal / saldo penarikan dikembalikan.<br>' +
+    '◆ Data auto-refresh setiap 4 detik.</div></div>';
+}
+
+function renderDeposits() {
+  if (!CACHE.deposits.length) {
+    $('#body').innerHTML = '<div class="admin-empty"><div class="aei">◈</div><p>Tidak ada deposit pending</p></div>';
+    return;
+  }
+  $('#body').innerHTML = CACHE.deposits.map(d =>
+    '<div class="admin-card gold">' +
+    '<div class="admin-card-head"><b>Deposit</b><small>' + formatTime(d.time) + '</small></div>' +
+    '<div class="admin-card-body">' +
+      '<div class="arow"><span>User</span><b>' + d.name + '</b></div>' +
+      '<div class="arow"><span>Nomor</span><b>' + d.phone + '</b></div>' +
+      '<div class="arow"><span>Metode</span><b>' + d.method + '</b></div>' +
+      '<div class="arow"><span>Kode</span><span class="code">' + d.code + '</span></div>' +
+      '<div class="arow"><span>Nominal</span><span class="amount">' + fmt(d.amount) + '</span></div>' +
+    '</div>' +
+    '<div class="admin-actions">' +
+      '<button class="admin-btn-no" data-rej-dep="' + d.id + '">✕ TIDAK</button>' +
+      '<button class="admin-btn-yes" data-acc-dep="' + d.id + '">✓ IYA</button>' +
+    '</div></div>'
+  ).join('');
+  $$('[data-acc-dep]').forEach(b => b.onclick = () => approveDeposit(b.dataset.accDep));
+  $$('[data-rej-dep]').forEach(b => b.onclick = () => rejectDeposit(b.dataset.rejDep));
+}
+
+function renderWithdrawals() {
+  if (!CACHE.withdraws.length) {
+    $('#body').innerHTML = '<div class="admin-empty"><div class="aei">⇄</div><p>Tidak ada penarikan pending</p></div>';
+    return;
+  }
+  $('#body').innerHTML = CACHE.withdraws.map(w =>
+    '<div class="admin-card red">' +
+    '<div class="admin-card-head"><b>Penarikan</b><small>' + formatTime(w.time) + '</small></div>' +
+    '<div class="admin-card-body">' +
+      '<div class="arow"><span>User</span><b>' + w.name + '</b></div>' +
+      '<div class="arow"><span>Nomor Akun</span><b>' + w.phone + '</b></div>' +
+      '<div class="arow"><span>Ke Nomor</span><b>' + w.dest + '</b></div>' +
+      '<div class="arow"><span>Nama Pemilik</span><b>' + w.owner + '</b></div>' +
+      '<div class="arow"><span>Nominal</span><span class="amount">' + fmt(w.amount) + '</span></div>' +
+    '</div>' +
+    '<div class="admin-actions">' +
+      '<button class="admin-btn-no" data-rej-wd="' + w.id + '">✕ TIDAK</button>' +
+      '<button class="admin-btn-yes" data-acc-wd="' + w.id + '">✓ IYA</button>' +
+    '</div></div>'
+  ).join('');
+  $$('[data-acc-wd]').forEach(b => b.onclick = () => approveWithdraw(b.dataset.accWd));
+  $$('[data-rej-wd]').forEach(b => b.onclick = () => rejectWithdraw(b.dataset.rejWd));
+}
+
+async function approveDeposit(id) {
+  const r = await api('/api/admin/approve/deposit', 'POST', { id });
+  if (!r.ok) return toast(r.err || 'Gagal', 'err');
+  toast('Deposit disetujui', 'ok');
+  refresh();
+}
+async function rejectDeposit(id) {
+  const r = await api('/api/admin/reject/deposit', 'POST', { id });
+  if (!r.ok) return toast(r.err || 'Gagal', 'err');
+  toast('Deposit ditolak', 'info');
+  refresh();
+}
+async function approveWithdraw(id) {
+  const r = await api('/api/admin/approve/withdraw', 'POST', { id });
+  if (!r.ok) return toast(r.err || 'Gagal', 'err');
+  toast('Penarikan disetujui', 'ok');
+  refresh();
+}
+async function rejectWithdraw(id) {
+  const r = await api('/api/admin/reject/withdraw', 'POST', { id });
+  if (!r.ok) return toast(r.err || 'Gagal', 'err');
+  toast('Penarikan ditolak, saldo dikembalikan', 'info');
+  refresh();
+}
+
+async function renderUsers() {
+  const r = await api('/api/admin/users');
+  if (!r.ok) return;
+  const users = r.users || [];
+  if (!users.length) {
+    $('#body').innerHTML = '<div class="admin-empty"><div class="aei">◉</div><p>Belum ada user</p></div>';
+    return;
+  }
+  $('#body').innerHTML = users.map(u => {
+    const init = (u.name || 'G').charAt(0).toUpperCase();
+    const avaHtml = u.avatar ? '<img src="' + u.avatar + '">' : init;
+    return '<div class="user-row">' +
+      '<div class="ur-av">' + avaHtml + '</div>' +
+      '<div class="ur-tx"><b>' + u.name + '</b><small>📱 ' + u.phone + ' · VIP ' + u.vip + '</small>' +
+      '<small>Dep ' + fmt(u.totalDeposit) + ' · Wd ' + fmt(u.totalWithdraw) + '</small></div>' +
+      '<div><div class="ur-val">' + fmt(u.saldo) + '<small>SALDO</small></div>' +
+      '<button class="user-block-btn ' + (u.blocked ? 'unblock' : '') + '" data-block="' + u.phone + '" data-state="' + (u.blocked ? '1' : '0') + '">' + (u.blocked ? 'BUKA' : 'BLOKIR') + '</button></div>' +
+      '</div>';
+  }).join('');
+  $$('[data-block]').forEach(b => b.onclick = async () => {
+    const phone = b.dataset.block;
+    const blocked = b.dataset.state === '0';
+    const r2 = await api('/api/admin/users/block', 'POST', { phone, blocked });
+    if (r2.ok) { toast(blocked ? 'User diblokir' : 'User dibuka', 'ok'); renderUsers(); }
+  });
+}
+
+async function renderHistory() {
+  const r = await api('/api/admin/history');
+  if (!r.ok) return;
+  const list = r.history || [];
+  if (!list.length) {
+    $('#body').innerHTML = '<div class="admin-empty"><div class="aei">▤</div><p>Belum ada riwayat</p></div>';
+    return;
+  }
+  $('#body').innerHTML = list.map(h =>
+    '<div class="hist-row">' +
+    '<div class="hr-l"><b>' + (h.type === 'deposit' ? '◈ Deposit' : '⇄ Penarikan') + ' · ' + h.name + '</b>' +
+    '<small>' + h.phone + ' · ' + formatTime(h.time) + ' · ' + (h.status || 'pending').toUpperCase() + '</small></div>' +
+    '<div class="hr-r">' + fmt(h.amount) + '</div></div>'
+  ).join('');
+}
+
+/* ============ AUTO LOGIN ============ */
+(async () => {
+  const t = getToken();
+  if (t) {
+    const r = await api('/api/admin/pending');
+    if (r.ok) { showPanel(); return; }
+    clearToken();
+  }
+  $('#passIn').focus();
+})();
+</script>
+</body>
+</html>
